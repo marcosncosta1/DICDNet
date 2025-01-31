@@ -7,8 +7,8 @@ data/raw/
 data/processed/
 *.dcm
 *.nii.gz
-deeplesion/train/train_640geo
-deeplesion/test/test_640geo
+data/train/train_640geo
+data/test/test_640geo
 results/deeplesion_demo
 results/deeplesion_multi
 results/deeplesion_pretrained_model
