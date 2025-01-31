@@ -6,6 +6,7 @@ from __future__ import print_function
 import argparse
 import os
 import random
+import time
 import torch
 import torch.nn.functional as  F
 import torch.nn.parallel
@@ -18,6 +19,7 @@ from dicdnet import DICDNet
 from torch.utils.data import DataLoader
 from dataset import MARTrainDataset
 from math import ceil
+from datetime import timedelta
 
 
 parser = argparse.ArgumentParser()
@@ -74,9 +76,16 @@ def train_model(net, optimizer, lr_scheduler, datasets):
     num_iter_epoch = ceil(num_data / opt.batchSize)
     writer = SummaryWriter(opt.log_dir)
     step = 0
+
+    # add start_time initialization
+    start_time = time.time()
+
     for epoch in range(opt.resume, opt.niter):
+        epoch_start = time.time()
+
         mse_per_epoch = 0
-        tic = time.time()
+        #tic = time.time()
+
         # train stage
         lr = optimizer.param_groups[0]['lr']
         for ii, data in enumerate(data_loader):
@@ -135,7 +144,16 @@ def train_model(net, optimizer, lr_scheduler, datasets):
             }, save_path_model)
             torch.save(net.state_dict(), os.path.join(opt.model_dir, 'DICDNet_%d.pt' % (epoch+1)))
         toc = time.time()
-        print('This epoch take time {:.2f}'.format(toc - tic))
+        epoch_time = toc - epoch_start
+        elapsed_time = toc - start_time
+        remaining_epochs = opt.niter - (epoch + 1)
+        estimated_total_time = elapsed_time + (epoch_time * remaining_epochs)
+
+        print(f"This epoch took {epoch_time:.2f} seconds.")
+        print(f"Elapsed time: {str(timedelta(seconds=elapsed_time))}")
+        print(f"Estimated remaining time: {str(timedelta(seconds=(epoch_time * remaining_epochs)))}")
+        print(f"Estimated total time: {str(timedelta(seconds=estimated_total_time))}")
+        #print('This epoch take time {:.2f}'.format(toc - tic))
     writer.close()
     print('Reach the maximal epochs! Finish training')
 
