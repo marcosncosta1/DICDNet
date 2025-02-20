@@ -12,7 +12,7 @@ import utils.save_image as save_img
 from dicdnet import DICDNet
 
 parser = argparse.ArgumentParser(description="ACDNet_Test")
-parser.add_argument("--model_dir", type=str, default="pretrained_model/DICDNet_latest.pt", help='path to model file')
+parser.add_argument("--model_dir", type=str, default="models/DICDNet_latest.pt", help='path to model file')
 parser.add_argument("--data_path", type=str, default="data/test/", help='path to test data')
 parser.add_argument("--use_GPU", type=bool, default=True, help='use GPU or not')
 parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
@@ -24,7 +24,7 @@ parser.add_argument('--S', type=int, default=10, help='Stage number')
 parser.add_argument('--etaM', type=float, default=1, help='stepsize for updating M')
 parser.add_argument('--etaX', type=float, default=5, help='stepsize for updating X')
 parser.add_argument('--batchSize', type=int, default=1, help='testing input batch size')
-opt = parser.parse_args()
+opt, unknown = parser.parse_known_args()
 
 if opt.use_GPU:
     os.environ["CUDA_VISIBLE_DEVICES"] = opt.gpu_id
@@ -116,10 +116,10 @@ def main():
     time_test = 0
     count = 0
    # for imag_idx in range(200): # for original testing, 200 clean CT images
-    for imag_idx in range(1):  # for demo testing, we only provide one testing data as "test_640geo/000376_02_01/040/0.h5"
+    for imag_idx in range(200):  # for demo testing, we only provide one testing data as "test_640geo/000376_02_01/040/0.h5"
         print("imag_idx:",imag_idx)
       #  for mask_idx in range(10): # for original testing, 10 testing metal masks
-        for mask_idx in range(1):   # for demo testing, we only 1 testing metal masks
+        for mask_idx in range(10):   # for demo testing, we only 1 testing metal masks
             Xma, X, XLI, M = test_image(opt.data_path, imag_idx, mask_idx)
             with torch.no_grad():
                 if opt.use_GPU:

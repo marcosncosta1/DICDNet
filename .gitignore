@@ -12,11 +12,13 @@ data/test/test_640geo
 results/deeplesion_demo
 results/deeplesion_multi
 results/deeplesion_pretrained_model
+save_results
 
 # Models
 models/*.pth
 models/*.h5
-
+models/*.pt
+models_default_mask/
 # Logs
 logs/
 outputs/
