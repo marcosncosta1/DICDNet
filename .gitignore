@@ -12,6 +12,14 @@ data/test/test_640geo
 results/deeplesion_demo
 results/deeplesion_multi
 results/deeplesion_pretrained_model
+dicdnet_clinical_results
+dicdnet_clinical_results2000
+dicdnet_clinical_results3500
+dicdnet_clinical_results_radon
+dicdnet_visualizations
+dicdnet_visualizations_2000
+dicdnet_visualizations_3500
+dicdnet_visualizations_radon
 save_results
 
 # Models
